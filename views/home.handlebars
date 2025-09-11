@@ -1,8 +1,14 @@
+<!-- This is the homepage that uses the main.handlebars layout -->
+<!-- The whole content will be surrouded by layouts/main.handlebars -->
+<!-- To make this page available, type {{{body}}} anywhere in layouts/main.handlebars file -->
 <h1> This is my Handlebars homepage</h1>
 <br>
+<h2>📈 Lista de Ações</h2>
 <br>
-<h6>{{stuff}}</h6>
-<br>
-<h6>{{moreStuff}}</h6>
-<br>
-<h6>{{appEngine}}</h6>
+<small>
+{{#each stock.stocks}}
+    <b>{{@key}}: {{name}}</b> <b>-</b> {{stock}} <b>-</b> Último valor: {{close}} <b>|</b> Setor: {{sector}}<br>
+{{/each}}
+</small>
+
+   
