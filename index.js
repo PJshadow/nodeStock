@@ -1,3 +1,5 @@
+//Stock Market Portfolio APP By Pierre Junior
+
 const express = require('express');
 const app = express();
 // DEPRECATED DOESN'T WORK ANYMORE const exphbs = require('express-handlebars'); //we need to require the 'express-handlebars' module to use Handlebars as our templating engine.
