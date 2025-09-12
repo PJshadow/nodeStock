@@ -1,14 +1,25 @@
 <!-- This is the homepage that uses the main.handlebars layout -->
 <!-- The whole content will be surrouded by layouts/main.handlebars -->
 <!-- To make this page available, type {{{body}}} anywhere in layouts/main.handlebars file -->
-<h1> This is my Handlebars homepage</h1>
+<h1>{{#each stock.results}}{{longName}} ({{symbol}}){{/each}}</h1>
 <br>
-<h2>📈 Lista de Ações</h2>
+<h2>📈 Dados da Ação</h2>
 <br>
-<small>
-{{#each stock.stocks}}
-    <b>{{@key}}: {{name}}</b> <b>-</b> {{stock}} <b>-</b> Último valor: {{close}} <b>|</b> Setor: {{sector}}<br>
-{{/each}}
-</small>
 
-   
+  {{posted_stuff}}
+  {{#each stock.results}}
+    <div class="stock-card">
+      <h2>{{longName}} ({{symbol}})</h2>
+      <br>
+      <p>{{posted_stuff}}</p>
+      <p>Último valor: R$ {{regularMarketPrice}}</p>
+      <p>Moeda {{currency}}</p>
+      <p>Variação no preço da ação no dia: {{regularMarketChangePercent}}</p>
+      <p>Maior preço da ação no dia: {{regularMarketDayHigh}}</p>
+      <p>Menor preço da ação no dia: {{regularMarketDayLow}}</p>
+      <p>Data e hora da última cotação registrada: {{regularMarketTime}}</p>
+      <p>Preço de fechamento do dia anterior: {{regularMarketPreviousClose}}</p>
+    </div>
+  {{/each}}
+
+ 

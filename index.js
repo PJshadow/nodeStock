@@ -6,8 +6,12 @@ const app = express();
 const { engine } = require('express-handlebars'); //we need to require the 'engine' function from the 'express-handlebars' module to use Handlebars as our templating engine.
 const path = require('path'); //we need to require the 'path' module to work with file and directory paths.
 const { got } = require('got'); //we need to require the 'got' module to make HTTP requests to external APIs, since the "request" module is deprecated. It must be { got } because "got" exports an object with a property called "got". If we dont use {}, we will get an error saying "got is not a function".
+const bodyParser = require('body-parser'); //we need to require the 'body-parser' module to parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 
 const PORT = process.env.PORT || 5000; //we need to set up a port for our server. || means OR. process.env.PORT is for when we deploy our app to a hosting service like Heroku. They will set up the port for us. If we are running the app locally, we will use port 5000.
+
+//Body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false })); //this line of code tells our server to use the body-parser middleware to parse incoming request bodies. extended: false means that we are not using the extended version of the body-parser middleware. We need to set this to false if we want to parse URL-encoded data with the querystring library. If we set it to true, it will use the qs library which allows for rich objects and arrays to be encoded into the URL-encoded format, allowing for a JSON-like experience with URL-encoded. But for our app, we don't need that, so we set it to false.
 
 
 
@@ -30,7 +34,7 @@ got('https://brapi.dev/api/quote/list', { responseType: 'json' })
 */
 async function call_api() {
   try {
-    const response = await got('https://brapi.dev/api/quote/list', { responseType: 'json' });
+    const response = await got('https://brapi.dev/api/quote/PETR4', { responseType: 'json' }); 
     return response.body;
   } catch (err) {
     console.error(err);
@@ -63,10 +67,21 @@ app.get('/', function(req, res){
     });
 });
 */
-//This is the corrected version with async/await
+//This is the corrected version with async/await. SET HANDLEBAR INDEX GET METHOD ROUTE
 app.get('/', async function(req, res) {
   const stockData = await call_api();
   res.render('home', {
+    stuff: 'This is some stuff I am passing to the homepage. It could be a variable or anything',
+    stock: stockData
+  });
+});
+
+//SET HANDLEBAR INDEX POST METHOD ROUTE
+app.post('/', async function(req, res) {
+  console.log(req.body); // Testing if we can see the data from the form in the console. req.body is an object that contains the data from the form. We can access the data using req.body.<name of the input field> It must show up in the console when we submit the form.
+  const stockData = await call_api();
+  res.render('home', {
+    posted_stuff: req.body.stock_ticker, //we can access the data from the form using req.body.<name of the input field>
     stuff: 'This is some stuff I am passing to the homepage. It could be a variable or anything',
     stock: stockData
   });
