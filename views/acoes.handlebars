@@ -1,0 +1,18 @@
+<h6>Somente as seguintes ações estão disponíveis para consulta sem a necessidade de token:</h6>
+PETR4	Petrobras PN<br>
+VALE3	Vale ON<br>
+MGLU3	Magazine Luiza<br>
+ITUB4	Itaú Unibanco<br><br>
+<form action="/acao-selecionada" method="POST">
+  <label for="acao">Selecione uma ação:</label>
+  <select name="acao" id="acao">
+    {{#each acoes}}
+      <option value="{{stock}}">{{stock}} - {{name}}</option>
+    {{/each}}
+  </select>
+  <button type="submit">Buscar</button>
+</form>
+
+  
+
+ 
